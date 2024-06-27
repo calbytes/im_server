@@ -1,5 +1,9 @@
 import psycopg
 from .config import DB_CONFIG
+from db_manager.psql_queries import PSQL_QUERIES as psql
+from enum import Enum, auto
+
+config = DB_CONFIG
 
 class Fetch(Enum):
     ONE = auto()
@@ -21,3 +25,8 @@ def execute(psql_raw, fetch: Fetch, params=None):
     except Exception as err:
         print(f"Unexpected {err=}, {type(err)=}")
         raise
+
+# APIs for IconMath Keywords
+def get_keywords_by_content_id(data):
+    row = execute(psql.GET_KEYWORDS_BY_ID, Fetch.ONE, data)
+    return row
