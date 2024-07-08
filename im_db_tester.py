@@ -6,6 +6,10 @@ def test_db():
     keywords = db.get_keywords_by_content_id(data)
     print(str(keywords))
 
+def get_unreviewed_keywords():
+    rows = db.get_unreviewed_keywords_ids()
+    print(rows)
+
 
 if __name__ == '__main__':
-    test_db()
+    get_unreviewed_keywords()

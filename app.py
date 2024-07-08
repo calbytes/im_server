@@ -19,3 +19,16 @@ def get_keywords():
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 'message': 'There was an error processing the request'}), 404 
+        
+@app.route('/getUnreviewedKeywordsIDs', methods = ['GET'])
+def get_next_keywords_review():
+    if(request.method == 'GET'):
+        try:
+            unreviewed_keywords = db.get_unreviewed_keywords_ids()
+            key = ['unreviewed']
+            response = dict(zip(key, unreviewed_keywords))
+            return jsonify(response)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 'message': 'There was an error processing the request'}), 404 
+
