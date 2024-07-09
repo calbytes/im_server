@@ -11,3 +11,10 @@ class PSQL_QUERIES:
         FROM ai_keywords
         where reviewed::INTEGER = 0
     '''
+
+    GET_LESSON_CONTENT = '''
+        SELECT *
+        FROM lesson
+        WHERE level = %s
+        AND lesson_order = %s
+    '''
