@@ -5,29 +5,25 @@ import db_manager.db as db
 
 app = Flask(__name__)
 
-@app.route('/keywords', methods = ['POST'])
+@app.route('/keywords', methods = ['GET'])
 def get_keywords():
-    if(request.method == 'POST'):
+    if(request.method == 'GET'):
         try:
-            json_data = request.get_json()
-            id = json_data.get('id')
+            id = request.args.get('id')
             data = (id,)
             keywords = db.get_keywords_by_content_id(data)
-            keys = ['keywords']
-            response = dict(zip(keys, keywords))
-            return jsonify(response)
+            return jsonify(keywords)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
-@app.route('/content', methods = ['POST'])
+@app.route('/content', methods = ['GET'])
 def get_content():
-    if(request.method == 'POST'):
+    if(request.method == 'GET'):
         try:
-            json_data = request.get_json()
-            level = json_data.get('level')
-            lesson_order = json_data.get('lesson_order')
+            level = request.args.get('level')
+            lesson_order = request.args.get('lesson_order')
             data = (level, lesson_order,)
             lesson_content = db.get_content(data)
             return jsonify(lesson_content)
