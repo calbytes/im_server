@@ -21,8 +21,8 @@ def get_keywords():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
-@app.route('/getContent', methods = ['POST'])
-def getContent():
+@app.route('/content', methods = ['POST'])
+def get_content():
     if(request.method == 'POST'):
         try:
             json_data = request.get_json()
@@ -38,7 +38,7 @@ def getContent():
 
         
 @app.route('/getUnreviewedKeywordsIDs', methods = ['GET'])
-def get_next_keywords_review():
+def get_unreviewed_keywords_ids():
     if(request.method == 'GET'):
         try:
             unreviewed_keywords = db.get_unreviewed_keywords_ids()
