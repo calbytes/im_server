@@ -18,8 +18,8 @@ def get_keywords():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
-@app.route('/content', methods = ['GET'])
-def get_content():
+@app.route('/lesson', methods = ['GET'])
+def get_lesson_content():
     if(request.method == 'GET'):
         try:
             level = request.args.get('level')
