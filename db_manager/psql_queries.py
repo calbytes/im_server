@@ -13,7 +13,7 @@ class PSQL_QUERIES:
     '''
 
     GET_LESSON_CONTENT = '''
-        SELECT *
+        SELECT data
         FROM lesson
         WHERE level = %s
         AND lesson_order = %s
