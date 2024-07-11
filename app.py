@@ -9,8 +9,9 @@ app = Flask(__name__)
 def get_keywords():
     if(request.method == 'GET'):
         try:
-            id = request.args.get('id')
-            data = (id,)
+            level = request.args.get('level')
+            lesson_order = request.args.get("lesson_order")
+            data = (level, lesson_order,)
             keywords = db.get_keywords_by_content_id(data)
             return jsonify(keywords)
         except Exception as err:
