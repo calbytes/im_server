@@ -44,18 +44,3 @@ def get_unreviewed_keywords_ids():
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
-
-@app.route('/test', methods = ['GET'])
-def get_test():
-    if(request.method == 'GET'):
-        try:
-            level = request.args.get('level')
-            lesson_order = request.args.get('lesson_order')
-            print(str(level) + str(lesson_order))
-
-            data = [('Grade 6', '1'), ('Grade 6', '3')]
-            return jsonify(data)
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
