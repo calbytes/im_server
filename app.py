@@ -25,6 +25,8 @@ def get_lesson_content():
         try:
             level = request.args.get('level')
             lesson_order = request.args.get('lesson_order')
+            print('level' + str(level))
+            print('lesson_order' + str(lesson_order))
             data = (level, lesson_order,)
             lesson_content = db.get_content(data)
             return jsonify(lesson_content)
