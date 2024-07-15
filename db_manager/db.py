@@ -40,3 +40,14 @@ def get_content(data):
 
 def add_reviewed_keywords(data):
     execute(psql.INSERT_REVIEWED_KEYWORDS, Fetch.EXC, data)
+
+def get_keywords_reviewed_bit(data):
+    row = execute(psql.GET_KEYWORDS_REVIEWED_BIT, Fetch.ONE, data)
+    return row[0]
+
+def get_reviewed_keywords(data):
+    row = execute(psql.GET_REVIEWED_KEYWORDS, Fetch.ONE, data)
+    return row
+
+def update_ai_keywords_reviewed_bit(data):
+    execute(psql.UPDATE_AI_KEYWORDS_REVIEWED_BIT, Fetch.EXC, data)

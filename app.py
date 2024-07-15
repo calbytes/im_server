@@ -11,7 +11,13 @@ def get_keywords():
             level = request.args.get('level')
             lesson_order = request.args.get("lesson_order")
             data = (level, lesson_order,)
-            keywords = db.get_keywords_by_content_id(data)
+            keywords = []
+            reviewed_bit = db.get_keywords_reviewed_bit(data)
+            if reviewed_bit == '0':
+                keywords = db.get_keywords_by_content_id(data)
+            elif reviewed_bit == '1':
+                keywords = db.get_reviewed_keywords(data)
+
             return jsonify(keywords)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
@@ -30,6 +36,10 @@ def add_reviewed_keywords():
             date = datetime.datetime.now()
             data = (level, lesson_order, str(keywords), reviewer, date)
             db.add_reviewed_keywords(data)
+
+            data = (level, lesson_order)
+            db.update_ai_keywords_reviewed_bit(data)
+
             return jsonify({'status': 'success'}), 201
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
@@ -50,7 +60,6 @@ def get_lesson_content():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
 
-        
 @app.route('/getUnreviewedKeywordsIDs', methods = ['GET'])
 def get_unreviewed_keywords_ids():
     if(request.method == 'GET'):

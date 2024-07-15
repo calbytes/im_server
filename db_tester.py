@@ -22,6 +22,11 @@ def date():
     date = datetime.datetime.now()
     print(date)
 
+def get_keywords():
+    data = ('Grade 6', '5')
+    response = db.get_keywords_reviewed_bit(data)
+    print(type(response[0]))
+
 
 if __name__ == '__main__':
-    date()
+    get_keywords()
