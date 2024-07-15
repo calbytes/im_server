@@ -28,7 +28,7 @@ def execute(psql_raw, fetch: Fetch, params=None):
 
 def get_keywords_by_content_id(data):
     row = execute(psql.GET_KEYWORDS_BY_ID, Fetch.ONE, data)
-    return row
+    return row[0]
 
 def get_unreviewed_keywords_ids():
     rows = execute(psql.GET_UNREVIEWED_KEYWORDS_IDS, Fetch.ALL)
