@@ -37,3 +37,6 @@ def get_unreviewed_keywords_ids():
 def get_content(data):
     row = execute(psql.GET_LESSON_CONTENT, Fetch.ONE, data)
     return row
+
+def add_reviewed_keywords(data):
+    execute(psql.INSERT_REVIEWED_KEYWORDS, Fetch.EXC, data)

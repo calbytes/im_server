@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
 import db_manager.db as db
-
-import db_manager.db as db
+import datetime
 
 app = Flask(__name__)
 
@@ -14,6 +13,24 @@ def get_keywords():
             data = (level, lesson_order,)
             keywords = db.get_keywords_by_content_id(data)
             return jsonify(keywords)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
+@app.route('/reviewed_keywords', methods = ['POST'])
+def add_reviewed_keywords():
+    if(request.method == 'POST'):
+        try:
+            json = request.get_json()
+            level = json.get('level')
+            lesson_order = json.get('lesson_order')
+            keywords = json.get('keywords')
+            reviewer = json.get('reviewer')
+            date = datetime.datetime.now()
+            data = (level, lesson_order, str(keywords), reviewer, date)
+            db.add_reviewed_keywords(data)
+            return jsonify({'status': 'success'}), 201
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 

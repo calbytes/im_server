@@ -19,3 +19,10 @@ class PSQL_QUERIES:
         WHERE level = %s
         AND lesson_order = %s
     '''
+
+    INSERT_REVIEWED_KEYWORDS = '''
+        INSERT INTO reviewed_keywords
+        (level, lesson_order, keywords, reviewer, date)
+        VALUES
+        (%s, %s, %s, %s, %s)
+    '''

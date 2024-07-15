@@ -1,4 +1,5 @@
 import db_manager.db as db
+import datetime
 
 def test_db():
     id = 1
@@ -17,6 +18,10 @@ def get_lesson_content():
     row = db.get_content(data)
     print(row)
 
+def date():
+    date = datetime.datetime.now()
+    print(date)
+
 
 if __name__ == '__main__':
-    get_lesson_content()
+    date()
