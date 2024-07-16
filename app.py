@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 import db_manager.db as db
 import datetime
+import json
+from utils import lesson_content_handler as lch
 
 app = Flask(__name__)
 
@@ -53,8 +55,9 @@ def get_lesson_content():
             level = request.args.get('level')
             lesson_order = request.args.get('lesson_order')
             data = (level, lesson_order,)
-            lesson_content = db.get_content(data)
-            return jsonify(lesson_content)
+            lesson_content = db.get_lesson_content(data)
+            dict_obj = lch.get_dict_obj(lesson_content)
+            return jsonify(dict_obj)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 

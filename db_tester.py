@@ -1,5 +1,7 @@
 import db_manager.db as db
 import datetime
+import json
+from utils import lesson_content_handler as lch
 
 def test_db():
     id = 1
@@ -19,8 +21,10 @@ def get_lesson_content():
     level = 'Grade 6'
     lesson_order = 4
     data = (level, lesson_order,)
-    row = db.get_content(data)
-    print(row)
+    lesson_content = db.get_lesson_content(data)
+    dict_obj = lch.get_dict_obj(lesson_content)
+    print("dict_obj type: " + str(type(dict_obj)))
+    print(dict_obj)
 
 def date():
     date = datetime.datetime.now()
@@ -33,4 +37,4 @@ def get_keywords():
 
 
 if __name__ == '__main__':
-    get_reviewed_keywords_ids()
+    get_lesson_content()
