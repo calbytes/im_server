@@ -60,12 +60,23 @@ def get_lesson_content():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
 
-@app.route('/getUnreviewedKeywordsIDs', methods = ['GET'])
+@app.route('/unreviewedKeywordsIDs', methods = ['GET'])
 def get_unreviewed_keywords_ids():
     if(request.method == 'GET'):
         try:
             unreviewed_keywords = db.get_unreviewed_keywords_ids()
             return jsonify(unreviewed_keywords)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+
+@app.route('/reviewedKeywordsIDs', methods = ['GET'])
+def get_reviewed_keywords_ids():
+    if(request.method == 'GET'):
+        try:
+            reviewed_keywords = db.get_reviewed_keywords_ids()
+            return jsonify(reviewed_keywords)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 

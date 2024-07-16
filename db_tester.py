@@ -11,6 +11,10 @@ def get_unreviewed_keywords():
     rows = db.get_unreviewed_keywords_ids()
     print(rows)
 
+def get_reviewed_keywords_ids():
+    rows = db.get_reviewed_keywords_ids()
+    print(rows)
+
 def get_lesson_content():
     level = 'Grade 6'
     lesson_order = 4
@@ -29,4 +33,4 @@ def get_keywords():
 
 
 if __name__ == '__main__':
-    get_keywords()
+    get_reviewed_keywords_ids()

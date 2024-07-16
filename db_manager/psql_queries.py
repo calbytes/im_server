@@ -12,6 +12,11 @@ class PSQL_QUERIES:
         FROM ai_keywords
         where reviewed::INTEGER = 0
     '''
+    GET_REVIEWED_KEYWORDS_IDS = '''
+        SELECT level, lesson_order
+        FROM ai_keywords
+        where reviewed::INTEGER = 1
+    '''
 
     GET_LESSON_CONTENT = '''
         SELECT data

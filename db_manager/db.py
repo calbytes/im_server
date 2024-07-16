@@ -34,6 +34,10 @@ def get_unreviewed_keywords_ids():
     rows = execute(psql.GET_UNREVIEWED_KEYWORDS_IDS, Fetch.ALL)
     return rows
 
+def get_reviewed_keywords_ids():
+    rows = execute(psql.GET_REVIEWED_KEYWORDS_IDS, Fetch.ALL)
+    return rows
+
 def get_content(data):
     row = execute(psql.GET_LESSON_CONTENT, Fetch.ONE, data)
     return row
