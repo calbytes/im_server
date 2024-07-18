@@ -26,7 +26,40 @@ def execute(psql_raw, fetch: Fetch, params=None):
         print(f"Unexpected {err=}, {type(err)=}")
         raise
 
-# APIs for IconMath Keywords
-def get_keywords_by_content_id(data):
-    row = execute(psql.GET_KEYWORDS_BY_ID, Fetch.ONE, data)
+def get_ai_keywords(data):
+    row = execute(psql.GET_AI_KEYWORDS, Fetch.ONE, data)
+    return row[0]
+
+def get_reviewed_keywords(data):
+    row = execute(psql.GET_REVIEWED_KEYWORDS, Fetch.ONE, data)
+    return row[0]
+
+def get_lesson_content(data):
+    row = execute(psql.GET_LESSON_CONTENT, Fetch.ONE, data)
     return row
+
+def add_reviewed_keywords(data):
+    execute(psql.INSERT_REVIEWED_KEYWORDS, Fetch.EXC, data)
+
+def update_lesson_reviewed_bit(data):
+    execute(psql.UPDATE_LESSON_REVIEWED_BIT, Fetch.EXC, data)
+
+def get_keywords_reviewed_bit(data):
+    row = execute(psql.GET_KEYWORDS_REVIEWED_BIT, Fetch.ONE, data)
+    return row[0]
+
+def get_distinct_levels(data):
+    rows = execute(psql.GET_DISTINCT_LEVELS, Fetch.ALL, data)
+    levels = [row[0] for row in rows]
+    return levels
+
+def get_subject_names(data):
+    rows = execute(psql.GET_SUBJECT_NAMES, Fetch.ALL, data)
+    subject_names = [row[0] for row in rows]
+    return subject_names
+
+def get_lesson_names(data):
+    rows = execute(psql.GET_LESSON_NAMES, Fetch.ALL, data)
+    lesson_names = [row[0] for row in rows]
+    return lesson_names
+  
