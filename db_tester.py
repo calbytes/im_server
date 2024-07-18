@@ -35,6 +35,12 @@ def get_keywords():
     response = db.get_keywords_reviewed_bit(data)
     print(type(response[0]))
 
+def get_levels():
+    reviewed = '0'
+    data = (reviewed,)
+    levels = db.get_distinct_levels(data)
+    print(levels) 
+
 
 if __name__ == '__main__':
-    get_lesson_content()
+    get_levels()

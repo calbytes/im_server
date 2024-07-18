@@ -52,3 +52,9 @@ class PSQL_QUERIES:
         WHERE level = %s 
         AND lesson_order = %s
     '''
+
+    GET_DISTINCT_LEVELS = '''
+        SELECT DISTINCT level
+        FROM lessons
+        WHERE reviewed::INTEGER = %s
+    '''

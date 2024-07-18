@@ -84,3 +84,19 @@ def get_reviewed_keywords_ids():
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
+        
+@app.route('/distinct_levels', methods = ['GET'])
+def get_distinct_levels():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            data = (reviewed,)
+            levels = db.get_distinct_levels(data)
+            return jsonify(levels)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
+select DISTINCT level
+from lessons

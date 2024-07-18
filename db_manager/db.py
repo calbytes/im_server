@@ -55,3 +55,7 @@ def get_reviewed_keywords(data):
 
 def update_ai_keywords_reviewed_bit(data):
     execute(psql.UPDATE_AI_KEYWORDS_REVIEWED_BIT, Fetch.EXC, data)
+
+def get_distinct_levels(data):
+    rows = execute(psql.GET_DISTINCT_LEVELS, Fetch.ALL, data)
+    return rows
