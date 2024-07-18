@@ -162,4 +162,10 @@ cython_debug/
 #.idea/
 
 config.py
+<<<<<<< HEAD
 reqs.txt
+rpi_reqs.txt
+
+=======
+reqs.txt
+>>>>>>> 9435929d766a212bf7431e26d65e51e38fba90cb
