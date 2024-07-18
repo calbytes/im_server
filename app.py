@@ -56,12 +56,9 @@ def get_lesson_content_and_keywords():
 
             data = (lesson_id,)
             keywords = []
-            print(str(type(reviewed)))
             if reviewed == '1':
-                print("getting rev kw")
                 keywords = db.get_reviewed_keywords(data)
             else:
-                print("getting ai kw")
                 keywords = db.get_ai_keywords(data)
 
             response = {
