@@ -3,20 +3,6 @@ import datetime
 import json
 from utils import lesson_content_handler as lch
 
-def test_db():
-    id = 1
-    data = (id,)
-    keywords = db.get_keywords_by_content_id(data)
-    print(str(keywords))
-
-def get_unreviewed_keywords():
-    rows = db.get_unreviewed_keywords_ids()
-    print(rows)
-
-def get_reviewed_keywords_ids():
-    rows = db.get_reviewed_keywords_ids()
-    print(rows)
-
 def get_lesson_content():
     reviewed = '0'
     level = 'Grade 6'
