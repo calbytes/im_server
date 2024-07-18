@@ -58,4 +58,16 @@ def update_ai_keywords_reviewed_bit(data):
 
 def get_distinct_levels(data):
     rows = execute(psql.GET_DISTINCT_LEVELS, Fetch.ALL, data)
-    return rows
+    levels = [row[0] for row in rows]
+    return levels
+
+def get_subject_names(data):
+    rows = execute(psql.GET_SUBJECT_NAMES, Fetch.ALL, data)
+    subject_names = [row[0] for row in rows]
+    return subject_names
+
+def get_lesson_names(data):
+    rows = execute(psql.GET_LESSON_NAMES, Fetch.ALL, data)
+    lesson_names = [row[0] for row in rows]
+    return lesson_names
+  

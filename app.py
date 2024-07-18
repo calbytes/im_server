@@ -98,5 +98,37 @@ def get_distinct_levels():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
-select DISTINCT level
-from lessons
+@app.route('/subject_names', methods = ['GET'])
+def get_subject_names():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            level = request.args.get('level')
+            data = (reviewed, level)
+            subject_names = db.get_subject_names(data)
+            print(str(type(subject_names)))
+            print(subject_names)
+            return jsonify(subject_names)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
+
+@app.route('/lesson_names', methods = ['GET'])
+def get_lesson_names():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            level = request.args.get('level')
+            subject_name = request.args.get('subject_name')
+            data = (reviewed, level, subject_name)
+            lesson_names = db.get_lesson_names(data)
+            print(str(type(lesson_names)))
+            print(lesson_names)
+            return jsonify(lesson_names)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        

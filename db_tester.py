@@ -36,11 +36,25 @@ def get_keywords():
     print(type(response[0]))
 
 def get_levels():
-    reviewed = '0'
+    reviewed = '1'
     data = (reviewed,)
     levels = db.get_distinct_levels(data)
     print(levels) 
 
+def get_subject_names():
+    reviewed = '0'
+    level = 'Grade 6'
+    data = (reviewed, level)
+    subject_names = db.get_subject_names(data)
+    print(subject_names)
+
+def get_lesson_names():
+    reviewed = '0'
+    level = 'Grade 999'
+    subject_name = 'Test Subject'
+    data = (reviewed, level, subject_name)
+    subject_names = db.get_lesson_names(data)
+    print(len(subject_names))
 
 if __name__ == '__main__':
-    get_levels()
+    get_lesson_names()
