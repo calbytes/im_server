@@ -18,21 +18,24 @@ def get_reviewed_keywords_ids():
     print(rows)
 
 def get_lesson_content():
+    reviewed = '0'
     level = 'Grade 6'
-    lesson_order = 4
-    data = (level, lesson_order,)
+    subject_name = 'Mathematics'
+    lesson_name = 'Understand the term: product'
+    data = (reviewed, level, subject_name, lesson_name)
     lesson_content = db.get_lesson_content(data)
-    dict_obj = lch.get_dict_obj(lesson_content)
-    print("dict_obj type: " + str(type(dict_obj)))
-    print(dict_obj)
+    #dict_obj = lch.get_dict_obj(lesson_content)
+    print("lesson_content type: " + str(type(lesson_content)))
+    print(lesson_content)
 
 def date():
     date = datetime.datetime.now()
     print(date)
 
 def get_keywords():
-    data = ('Grade 6', '5')
-    response = db.get_keywords_reviewed_bit(data)
+    data = (6,)
+    response = db.get_ai_keywords(data)
+    print(response)
     print(type(response[0]))
 
 def get_levels():
@@ -56,5 +59,6 @@ def get_lesson_names():
     subject_names = db.get_lesson_names(data)
     print(len(subject_names))
 
+
 if __name__ == '__main__':
-    get_lesson_names()
+    get_keywords()

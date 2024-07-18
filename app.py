@@ -10,17 +10,10 @@ app = Flask(__name__)
 def get_keywords():
     if(request.method == 'GET'):
         try:
-            level = request.args.get('level')
-            lesson_order = request.args.get("lesson_order")
-            data = (level, lesson_order,)
-            keywords = []
-            reviewed_bit = db.get_keywords_reviewed_bit(data)
-            if reviewed_bit == '0':
-                keywords = db.get_keywords_by_content_id(data)
-            elif reviewed_bit == '1':
-                keywords = db.get_reviewed_keywords(data)
 
-            return jsonify(keywords)
+            print("TODO")
+            raise Exception("changed table structure")
+
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
@@ -31,16 +24,16 @@ def add_reviewed_keywords():
     if(request.method == 'POST'):
         try:
             json = request.get_json()
-            level = json.get('level')
-            lesson_order = json.get('lesson_order')
+            keywords_id = json.get('keywords_id')
             keywords = json.get('keywords')
             reviewer = json.get('reviewer')
             date = datetime.datetime.now()
-            data = (level, lesson_order, str(keywords), reviewer, date)
+            data = (keywords_id, str(keywords), reviewer, date)
+            print(data)
             db.add_reviewed_keywords(data)
 
-            data = (level, lesson_order)
-            db.update_ai_keywords_reviewed_bit(data)
+            data = (keywords_id,)
+            db.update_lesson_reviewed_bit(data)
 
             return jsonify({'status': 'success'}), 201
         except Exception as err:
@@ -48,38 +41,36 @@ def add_reviewed_keywords():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
-@app.route('/lesson', methods = ['GET'])
-def get_lesson_content():
+@app.route('/lesson_and_keywords', methods = ['GET'])
+def get_lesson_content_and_keywords():
     if(request.method == 'GET'):
         try:
+            reviewed = request.args.get('reviewed')
             level = request.args.get('level')
-            lesson_order = request.args.get('lesson_order')
-            data = (level, lesson_order,)
-            lesson_content = db.get_lesson_content(data)
-            dict_obj = lch.get_dict_obj(lesson_content)
-            return jsonify(dict_obj)
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
+            subject_name = request.args.get('subject_name')
+            lesson_name = request.args.get('lesson_name')
+            data = (reviewed, level, subject_name, lesson_name)
+            row = db.get_lesson_content(data)
+            lesson_content = row[0]
+            lesson_id = row[1]
 
-@app.route('/unreviewedKeywordsIDs', methods = ['GET'])
-def get_unreviewed_keywords_ids():
-    if(request.method == 'GET'):
-        try:
-            unreviewed_keywords = db.get_unreviewed_keywords_ids()
-            return jsonify(unreviewed_keywords)
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
+            data = (lesson_id,)
+            keywords = []
+            print(str(type(reviewed)))
+            if reviewed == '1':
+                print("getting rev kw")
+                keywords = db.get_reviewed_keywords(data)
+            else:
+                print("getting ai kw")
+                keywords = db.get_ai_keywords(data)
 
-@app.route('/reviewedKeywordsIDs', methods = ['GET'])
-def get_reviewed_keywords_ids():
-    if(request.method == 'GET'):
-        try:
-            reviewed_keywords = db.get_reviewed_keywords_ids()
-            return jsonify(reviewed_keywords)
+            response = {
+                'lesson': lesson_content,
+                'keywords': keywords,
+                'lesson_id': lesson_id
+            }
+
+            return jsonify(response)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
@@ -106,8 +97,6 @@ def get_subject_names():
             level = request.args.get('level')
             data = (reviewed, level)
             subject_names = db.get_subject_names(data)
-            print(str(type(subject_names)))
-            print(subject_names)
             return jsonify(subject_names)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
@@ -124,8 +113,6 @@ def get_lesson_names():
             subject_name = request.args.get('subject_name')
             data = (reviewed, level, subject_name)
             lesson_names = db.get_lesson_names(data)
-            print(str(type(lesson_names)))
-            print(lesson_names)
             return jsonify(lesson_names)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")

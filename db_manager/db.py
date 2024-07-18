@@ -26,35 +26,27 @@ def execute(psql_raw, fetch: Fetch, params=None):
         print(f"Unexpected {err=}, {type(err)=}")
         raise
 
-def get_keywords_by_content_id(data):
-    row = execute(psql.GET_KEYWORDS_BY_ID, Fetch.ONE, data)
-    return row[0]
-
-def get_unreviewed_keywords_ids():
-    rows = execute(psql.GET_UNREVIEWED_KEYWORDS_IDS, Fetch.ALL)
-    return rows
-
-def get_reviewed_keywords_ids():
-    rows = execute(psql.GET_REVIEWED_KEYWORDS_IDS, Fetch.ALL)
-    return rows
-
-def get_lesson_content(data):
-    row = execute(psql.GET_LESSON_CONTENT, Fetch.ONE, data)
-    return row[0]
-
-def add_reviewed_keywords(data):
-    execute(psql.INSERT_REVIEWED_KEYWORDS, Fetch.EXC, data)
-
-def get_keywords_reviewed_bit(data):
-    row = execute(psql.GET_KEYWORDS_REVIEWED_BIT, Fetch.ONE, data)
+def get_ai_keywords(data):
+    row = execute(psql.GET_AI_KEYWORDS, Fetch.ONE, data)
     return row[0]
 
 def get_reviewed_keywords(data):
     row = execute(psql.GET_REVIEWED_KEYWORDS, Fetch.ONE, data)
+    return row[0]
+
+def get_lesson_content(data):
+    row = execute(psql.GET_LESSON_CONTENT, Fetch.ONE, data)
     return row
 
-def update_ai_keywords_reviewed_bit(data):
-    execute(psql.UPDATE_AI_KEYWORDS_REVIEWED_BIT, Fetch.EXC, data)
+def add_reviewed_keywords(data):
+    execute(psql.INSERT_REVIEWED_KEYWORDS, Fetch.EXC, data)
+
+def update_lesson_reviewed_bit(data):
+    execute(psql.UPDATE_LESSON_REVIEWED_BIT, Fetch.EXC, data)
+
+def get_keywords_reviewed_bit(data):
+    row = execute(psql.GET_KEYWORDS_REVIEWED_BIT, Fetch.ONE, data)
+    return row[0]
 
 def get_distinct_levels(data):
     rows = execute(psql.GET_DISTINCT_LEVELS, Fetch.ALL, data)

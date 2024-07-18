@@ -1,55 +1,38 @@
 class PSQL_QUERIES:
 
-    GET_KEYWORDS_BY_ID = '''
+    GET_AI_KEYWORDS = '''
         SELECT keywords
         FROM ai_keywords
-        WHERE level = %s
-        AND lesson_order = %s
+        WHERE keywords_id = %s
     '''
-
-    GET_UNREVIEWED_KEYWORDS_IDS = '''
-        SELECT level, lesson_order
-        FROM ai_keywords
-        where reviewed::INTEGER = 0
-    '''
-    GET_REVIEWED_KEYWORDS_IDS = '''
-        SELECT level, lesson_order
-        FROM ai_keywords
-        where reviewed::INTEGER = 1
+    GET_REVIEWED_KEYWORDS = '''
+        SELECT keywords
+        FROM reviewed_keywords
+        WHERE keywords_id = %s
+        ORDER BY timestamp DESC
+        LIMIT 1;
     '''
 
     GET_LESSON_CONTENT = '''
-        SELECT data
-        FROM lesson
-        WHERE level = %s
-        AND lesson_order = %s
+        SELECT content_body, lesson_id
+        FROM lessons
+        WHERE reviewed::INTEGER = %s
+        AND level = %s
+        AND subject_name = %s
+        AND lesson_name = %s
     '''
 
     INSERT_REVIEWED_KEYWORDS = '''
         INSERT INTO reviewed_keywords
-        (level, lesson_order, keywords, reviewer, date)
+        (keywords_id, keywords, reviewer, date)
         VALUES
-        (%s, %s, %s, %s, %s)
+        (%s, %s, %s, %s)
     '''
 
     GET_KEYWORDS_REVIEWED_BIT = '''
         SELECT reviewed
         FROM ai_keywords
         WHERE level = %s
-        AND lesson_order = %s
-    '''
-
-    GET_REVIEWED_KEYWORDS = '''
-        SELECT keywords
-        FROM reviewed_keywords
-        WHERE level = %s
-        AND lesson_order = %s
-    '''
-
-    UPDATE_AI_KEYWORDS_REVIEWED_BIT = '''
-        UPDATE ai_keywords
-        SET reviewed = B'1'
-        WHERE level = %s 
         AND lesson_order = %s
     '''
 
@@ -72,4 +55,10 @@ class PSQL_QUERIES:
         WHERE reviewed::INTEGER = %s
         AND level = %s
         AND subject_name = %s
+    '''
+
+    UPDATE_LESSON_REVIEWED_BIT = '''
+        UPDATE lessons
+        SET reviewed = B'1'
+        WHERE lesson_id = %s
     '''
