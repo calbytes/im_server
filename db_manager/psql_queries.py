@@ -24,7 +24,7 @@ class PSQL_QUERIES:
 
     INSERT_REVIEWED_KEYWORDS = '''
         INSERT INTO reviewed_keywords
-        (keywords_id, keywords, reviewer, date)
+        (keywords_id, keywords, reviewer, timestamp)
         VALUES
         (%s, %s, %s, %s)
     '''
