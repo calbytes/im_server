@@ -48,23 +48,34 @@ def get_lesson_content_and_keywords():
             reviewed = request.args.get('reviewed')
             level = request.args.get('level')
             subject_name = request.args.get('subject_name')
+            unit_name = request.args.get('unit_name')
             lesson_name = request.args.get('lesson_name')
-            data = (reviewed, level, subject_name, lesson_name)
+
+            data = (level, subject_name, unit_name, lesson_name)
             row = db.get_lesson_content(data)
             lesson_content = row[0]
             lesson_id = row[1]
 
             data = (lesson_id,)
+            last_reviewed_by = ''
             keywords = []
             if reviewed == '1':
-                keywords = db.get_reviewed_keywords(data)
+                row = db.get_reviewed_keywords(data)
+                keywords = row[0]
+                last_reviewed_by = row[1]
             else:
                 keywords = db.get_ai_keywords(data)
+
+
+            print('keywords + reviewed')
+            print(keywords, last_reviewed_by)
+            
 
             response = {
                 'lesson': lesson_content,
                 'keywords': keywords,
-                'lesson_id': lesson_id
+                'lesson_id': lesson_id,
+                'last_reviewed_by': last_reviewed_by
             }
 
             return jsonify(response)
@@ -151,7 +162,6 @@ def get_lesson_names():
                 data = (reviewed, level, subject_name, unit_name)
                 lesson_names = db.get_lesson_names(data)
             
-            print(lesson_names)
             return jsonify(lesson_names)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")

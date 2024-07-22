@@ -6,7 +6,7 @@ class PSQL_QUERIES:
         WHERE keywords_id = %s
     '''
     GET_REVIEWED_KEYWORDS = '''
-        SELECT keywords
+        SELECT keywords, reviewer
         FROM reviewed_keywords
         WHERE keywords_id = %s
         ORDER BY timestamp DESC
@@ -16,9 +16,9 @@ class PSQL_QUERIES:
     GET_LESSON_CONTENT = '''
         SELECT content_body, lesson_id
         FROM lessons
-        WHERE reviewed::INTEGER = %s
-        AND level = %s
+        WHERE level = %s
         AND subject_name = %s
+        AND unit_name = %s
         AND lesson_name = %s
     '''
 
