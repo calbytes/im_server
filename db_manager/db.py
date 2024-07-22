@@ -63,11 +63,25 @@ def get_subject_names(data):
     subject_names = [row[0] for row in rows]
     return subject_names
 
-
 def get_all_subject_names(data):
     rows = execute(psql.GET_ALL_SUBJECT_NAMES, Fetch.ALL, data)
     subject_names = [row[0] for row in rows]
     return subject_names    
+
+def get_all_unit_names(data):
+    rows = execute(psql.GET_ALL_UNIT_NAMES, Fetch.ALL, data)
+    unit_names = [row[0] for row in rows]
+    return unit_names 
+
+def get_unit_names(data):
+    rows = execute(psql.GET_UNIT_NAMES, Fetch.ALL, data)
+    unit_names = [row[0] for row in rows]
+    return unit_names    
+
+def get_all_lesson_names(data):
+    rows = execute(psql.GET_ALL_LESSON_NAMES, Fetch.ALL, data)
+    lesson_names = [row[0] for row in rows]
+    return lesson_names    
 
 def get_lesson_names(data):
     rows = execute(psql.GET_LESSON_NAMES, Fetch.ALL, data)

@@ -59,12 +59,35 @@ class PSQL_QUERIES:
         WHERE level = %s
     '''
 
+    GET_ALL_UNIT_NAMES = '''
+        SELECT DISTINCT unit_name
+        FROM lessons
+        WHERE level = %s
+        AND subject_name = %s
+    '''
+
+    GET_UNIT_NAMES = '''
+        SELECT DISTINCT unit_name
+        FROM lessons
+        WHERE reviewed::INTEGER = %s
+        AND level = %s
+        AND subject_name = %s
+    '''
+
+    GET_ALL_LESSON_NAMES = '''
+        SELECT lesson_name
+        from lessons
+        WHERE level = %s
+        AND subject_name = %s
+        AND unit_name = %s
+    '''
     GET_LESSON_NAMES = '''
         SELECT lesson_name
         from lessons
         WHERE reviewed::INTEGER = %s
         AND level = %s
         AND subject_name = %s
+        AND unit_name = %s
     '''
 
     UPDATE_LESSON_REVIEWED_BIT = '''

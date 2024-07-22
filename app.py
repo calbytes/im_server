@@ -111,6 +111,28 @@ def get_subject_names():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
+@app.route('/unit_names', methods = ['GET'])
+def get_unit_names():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            level = request.args.get('level')
+            subject_name = request.args.get('subject_name')
+
+            unit_names = []
+            if(reviewed == '2'):
+                data = (level, subject_name)
+                unit_names = db.get_all_unit_names(data)
+            else:
+                data = (reviewed, level, subject_name)
+                unit_names = db.get_unit_names(data)
+
+            return jsonify(unit_names)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
 
 @app.route('/lesson_names', methods = ['GET'])
 def get_lesson_names():
@@ -119,8 +141,17 @@ def get_lesson_names():
             reviewed = request.args.get('reviewed')
             level = request.args.get('level')
             subject_name = request.args.get('subject_name')
-            data = (reviewed, level, subject_name)
-            lesson_names = db.get_lesson_names(data)
+            unit_name = request.args.get('unit_name')
+
+            lesson_names = []
+            if(reviewed == '2'):
+                data = (level, subject_name, unit_name)
+                lesson_names = db.get_all_lesson_names(data)
+            else:
+                data = (reviewed, level, subject_name, unit_name)
+                lesson_names = db.get_lesson_names(data)
+            
+            print(lesson_names)
             return jsonify(lesson_names)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
