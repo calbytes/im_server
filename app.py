@@ -59,17 +59,12 @@ def get_lesson_content_and_keywords():
             data = (lesson_id,)
             last_reviewed_by = ''
             keywords = []
-            if reviewed == '1':
+            if reviewed == '0':
+                keywords = db.get_ai_keywords(data)
+            else:
                 row = db.get_reviewed_keywords(data)
                 keywords = row[0]
-                last_reviewed_by = row[1]
-            else:
-                keywords = db.get_ai_keywords(data)
-
-
-            print('keywords + reviewed')
-            print(keywords, last_reviewed_by)
-            
+                last_reviewed_by = row[1]        
 
             response = {
                 'lesson': lesson_content,
