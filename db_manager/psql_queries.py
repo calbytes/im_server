@@ -42,11 +42,21 @@ class PSQL_QUERIES:
         WHERE reviewed::INTEGER = %s
     '''
 
+    GET_ALL_LEVELS = '''
+        SELECT DISTINCT level
+        FROM lessons
+    '''
+
     GET_SUBJECT_NAMES = '''
         SELECT DISTINCT subject_name
         FROM lessons
         WHERE reviewed::INTEGER = %s
         AND level = %s
+    '''
+    GET_ALL_SUBJECT_NAMES = '''
+        SELECT DISTINCT subject_name
+        FROM lessons
+        WHERE level = %s
     '''
 
     GET_LESSON_NAMES = '''

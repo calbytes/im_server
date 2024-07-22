@@ -78,8 +78,13 @@ def get_distinct_levels():
     if(request.method == 'GET'):
         try:
             reviewed = request.args.get('reviewed')
-            data = (reviewed,)
-            levels = db.get_distinct_levels(data)
+            levels = []
+            if(reviewed == '2'):
+                levels = db.get_all_levels()
+            else:
+                data = (reviewed,)
+                levels = db.get_distinct_levels(data)
+
             return jsonify(levels)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
@@ -92,8 +97,14 @@ def get_subject_names():
         try:
             reviewed = request.args.get('reviewed')
             level = request.args.get('level')
-            data = (reviewed, level)
-            subject_names = db.get_subject_names(data)
+            subject_names = []
+            if(reviewed == '2'):
+                data = (level,)
+                subject_names = db.get_all_subject_names(data)
+            else:
+                data = (reviewed, level)
+                subject_names = db.get_subject_names(data)
+
             return jsonify(subject_names)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
