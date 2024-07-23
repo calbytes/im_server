@@ -14,7 +14,7 @@ class PSQL_QUERIES:
     '''
 
     GET_LESSON_CONTENT = '''
-        SELECT content_body, lesson_id
+        SELECT content_body, lesson_id, reviewed
         FROM lessons
         WHERE level = %s
         AND subject_name = %s
