@@ -45,6 +45,12 @@ def get_lesson_names():
     subject_names = db.get_lesson_names(data)
     print(len(subject_names))
 
+def compare_str_lens():
+    un = 'Spatial Reasoning'
+    print(len(un))
+    data = ('Naming lines',)
+    res = db.get_unit_name(data)[0]
+    print(len(res))
 
 if __name__ == '__main__':
-    get_keywords()
+    compare_str_lens()

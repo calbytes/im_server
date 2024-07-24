@@ -95,3 +95,11 @@ class PSQL_QUERIES:
         SET reviewed = B'1'
         WHERE lesson_id = %s
     '''
+
+    #TEST
+    GET_UNIT_NAME = '''
+        SELECT unit_name 
+        FROM lessons 
+        WHERE lesson_name = %s
+    '''
+

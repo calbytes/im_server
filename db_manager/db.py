@@ -88,3 +88,11 @@ def get_lesson_names(data):
     lesson_names = [row[0] for row in rows]
     return lesson_names
   
+
+
+
+
+#TEST
+def get_unit_name(data):
+    row = execute(psql.GET_UNIT_NAME, Fetch.ONE, data)
+    return row

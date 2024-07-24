@@ -57,8 +57,6 @@ def get_lesson_content_and_keywords():
             lesson_id = row[1]
             is_reviewed = row[2]
 
-            print('-----> isReviewed : ' + str(is_reviewed))
-
             data = (lesson_id,)
             last_reviewed_by = ''
             keywords = []
