@@ -88,8 +88,16 @@ def get_lesson_names(data):
     lesson_names = [row[0] for row in rows]
     return lesson_names
   
+def update_keyword_content(data):
+    execute(psql.UPDATE_KEYWORD_CONTENT, Fetch.EXC, data)
 
+def get_level_by_lesson_id(data):
+    row = execute(psql.GET_LEVEL_BY_LESSON_ID, Fetch.ONE, data)
+    return row[0]
 
+def get_keyword_content(data):
+    row = execute(psql.GET_KEYWORD_CONTENT, Fetch.ONE, data)
+    return row
 
 
 #TEST

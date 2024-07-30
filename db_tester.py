@@ -52,5 +52,31 @@ def compare_str_lens():
     res = db.get_unit_name(data)[0]
     print(len(res))
 
+def test_keyword_content():
+    content = 'new'
+    reviewer = 'carlosl'
+    keyword = 'testk'
+    level = 'Grade 6'
+    ts = datetime.datetime.now()
+    data = (content, reviewer, ts, keyword, level)
+    db.update_keyword_content(data)
+
+def get_level():
+    lesson_id = 64
+    data = (lesson_id,)
+    level = db.get_level_by_lesson_id(data)
+    print(level)
+
+def get_keyword_content():
+    keyword = 'testk'
+    level = 'Grade 6'
+    data = (keyword, level)
+    row = db.get_keyword_content(data)
+    print(row)
+    if(row[1] == 0):
+        print('no reviews')
+    elif(row[1] == 1):
+        print('reviewed')
+
 if __name__ == '__main__':
-    compare_str_lens()
+    get_keyword_content()

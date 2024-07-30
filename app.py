@@ -165,3 +165,45 @@ def get_lesson_names():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
+@app.route('/keyword_content', methods = ['GET', 'POST'])
+def update_keyword_content():
+    if(request.method == 'GET'):
+        try:
+            keyword = request.args.get('keyword')
+            level = request.args.get('level')
+
+            data = (keyword, level)
+            res = db.get_keyword_content(data)
+            print(res)
+
+            keyword_content = ''
+            if(res[1] == 0):
+                keyword_content = res[0]
+            elif(res[1] == 1):
+                keyword_content = res[2]
+            
+            print('--->>> ' + keyword_content)
+
+            return jsonify(keyword_content)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404
+        
+    if(request.method == 'POST'):
+        try:
+            json = request.get_json()
+            keyword = json.get('keyword')
+            keyword_content = json.get('keyword_content')
+            level = json.get('level')
+            reviewer = json.get('reviewer')
+            date = datetime.datetime.now()
+
+            data = (keyword_content, reviewer, date, keyword, level)
+            db.update_keyword_content(data)
+
+            return jsonify({'status': 'success'}), 201
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 

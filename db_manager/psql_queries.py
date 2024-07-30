@@ -96,6 +96,26 @@ class PSQL_QUERIES:
         WHERE lesson_id = %s
     '''
 
+    UPDATE_KEYWORD_CONTENT = '''
+        UPDATE keyword_content
+        SET edited_content = %s, reviewer = %s, approved = 1, reviewed_timestamp = %s
+        WHERE keyword = %s
+        AND level = %s;
+    '''
+
+    GET_LEVEL_BY_LESSON_ID = '''
+        SELECT level
+        FROM lessons
+        WHERE lesson_id = %s;
+    '''
+
+    GET_KEYWORD_CONTENT = '''
+        SELECT content, approved, edited_content
+        from keyword_content
+        WHERE keyword = %s
+        AND level = %s;
+    '''
+
     #TEST
     GET_UNIT_NAME = '''
         SELECT unit_name 
