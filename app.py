@@ -182,8 +182,6 @@ def update_keyword_content():
             elif(res[1] == 1):
                 keyword_content = res[2]
             
-            print('--->>> ' + keyword_content)
-
             return jsonify(keyword_content)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
@@ -193,13 +191,21 @@ def update_keyword_content():
     if(request.method == 'POST'):
         try:
             json = request.get_json()
+            approved = json.get('approved')
             keyword = json.get('keyword')
             keyword_content = json.get('keyword_content')
             level = json.get('level')
             reviewer = json.get('reviewer')
             date = datetime.datetime.now()
 
+            if(approved == '1'):
+                print('Approved')
+            elif(approved == '-1'):
+                print('Not approved')
+                
+
             data = (keyword_content, reviewer, date, keyword, level)
+            print(data)
             db.update_keyword_content(data)
 
             return jsonify({'status': 'success'}), 201
