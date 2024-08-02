@@ -170,19 +170,21 @@ def update_keyword_content():
     if(request.method == 'GET'):
         try:
             keyword = request.args.get('keyword')
-            level = request.args.get('level')
-
-            data = (keyword, level)
+            id = request.args.get('lesson_id')
+            data = (keyword, id)
             res = db.get_keyword_content(data)
-            print(res)
 
-            keyword_content = ''
-            if(res[1] == 0):
-                keyword_content = res[0]
-            elif(res[1] == 1):
-                keyword_content = res[2]
+            keyword_content = res[0]
+            reviewer = ''
+            if(res[1] != 0):
+                reviewer = res[2]
+
+            response = {
+                'keyword_content': keyword_content,
+                'reviewer': reviewer
+            }
             
-            return jsonify(keyword_content)
+            return jsonify(response)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
@@ -193,8 +195,7 @@ def update_keyword_content():
             json = request.get_json()
             approved = json.get('approved')
             keyword = json.get('keyword')
-            keyword_content = json.get('keyword_content')
-            level = json.get('level')
+            id = json.get('lesson_id')
             reviewer = json.get('reviewer')
             date = datetime.datetime.now()
 
@@ -202,10 +203,8 @@ def update_keyword_content():
                 print('Approved')
             elif(approved == '-1'):
                 print('Not approved')
-                
 
-            data = (keyword_content, reviewer, date, keyword, level)
-            print(data)
+            data = (reviewer, approved, date, keyword, id)
             db.update_keyword_content(data)
 
             return jsonify({'status': 'success'}), 201

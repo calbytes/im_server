@@ -98,9 +98,9 @@ class PSQL_QUERIES:
 
     UPDATE_KEYWORD_CONTENT = '''
         UPDATE keyword_content
-        SET edited_content = %s, reviewer = %s, approved = 1, reviewed_timestamp = %s
+        SET reviewer = %s, approved = %s, timestamp = %s
         WHERE keyword = %s
-        AND level = %s;
+        AND id = %s;
     '''
 
     GET_LEVEL_BY_LESSON_ID = '''
@@ -110,10 +110,10 @@ class PSQL_QUERIES:
     '''
 
     GET_KEYWORD_CONTENT = '''
-        SELECT content, approved, edited_content
+        SELECT content, approved, reviewer
         from keyword_content
         WHERE keyword = %s
-        AND level = %s;
+        AND id = %s;
     '''
 
     #TEST
