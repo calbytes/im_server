@@ -192,9 +192,10 @@ def get_lesson_names():
 def update_keyword_content():
     if(request.method == 'GET'):
         try:
-            keyword = request.args.get('keyword')
+            keyword = request.args.get('keyword').strip()
             id = request.args.get('lesson_id')
             data = (keyword, id)
+            print(data)
             res = db.get_keyword_content(data)
 
             keyword_content = res[0]
