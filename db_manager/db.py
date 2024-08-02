@@ -76,7 +76,17 @@ def get_all_unit_names(data):
 def get_unit_names(data):
     rows = execute(psql.GET_UNIT_NAMES, Fetch.ALL, data)
     unit_names = [row[0] for row in rows]
-    return unit_names    
+    return unit_names
+
+def get_all_chapter_names(data):
+    rows = execute(psql.GET_ALL_CHAPTER_NAMES, Fetch.ALL, data)
+    chapter_names = [row[0] for row in rows]
+    return chapter_names 
+
+def get_chapter_names(data):
+    rows = execute(psql.GET_CHAPTER_NAMES, Fetch.ALL, data)
+    chapter_names = [row[0] for row in rows]
+    return chapter_names  
 
 def get_all_lesson_names(data):
     rows = execute(psql.GET_ALL_LESSON_NAMES, Fetch.ALL, data)

@@ -74,12 +74,30 @@ class PSQL_QUERIES:
         AND subject_name = %s
     '''
 
+    GET_ALL_CHAPTER_NAMES = '''
+        SELECT DISTINCT chapter_name
+        FROM lessons
+        WHERE level = %s
+        AND subject_name = %s
+        AND unit_name = %s
+    '''
+
+    GET_CHAPTER_NAMES = '''
+        SELECT DISTINCT chapter_name
+        FROM lessons
+        WHERE reviewed::INTEGER = %s
+        AND level = %s
+        AND subject_name = %s
+        AND unit_name = %s
+    '''
+
     GET_ALL_LESSON_NAMES = '''
         SELECT lesson_name
         from lessons
         WHERE level = %s
         AND subject_name = %s
         AND unit_name = %s
+        AND chapter_name = %s
     '''
     GET_LESSON_NAMES = '''
         SELECT lesson_name
@@ -88,6 +106,7 @@ class PSQL_QUERIES:
         AND level = %s
         AND subject_name = %s
         AND unit_name = %s
+        AND chapter_name = %s
     '''
 
     UPDATE_LESSON_REVIEWED_BIT = '''

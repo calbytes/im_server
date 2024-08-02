@@ -141,7 +141,29 @@ def get_unit_names():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
+@app.route('/chapter_names', methods = ['GET'])
+def get_chapter_names():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            level = request.args.get('level')
+            subject_name = request.args.get('subject_name')
+            unit_name = request.args.get('unit_name')
 
+            chapter_names = []
+            if(reviewed == '2'):
+                data = (level, subject_name, unit_name)
+                chapter_names = db.get_all_chapter_names(data)
+            else:
+                data = (reviewed, level, subject_name, unit_name)
+                chapter_names = db.get_chapter_names(data)
+
+            return jsonify(chapter_names)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
 @app.route('/lesson_names', methods = ['GET'])
 def get_lesson_names():
     if(request.method == 'GET'):
@@ -150,13 +172,14 @@ def get_lesson_names():
             level = request.args.get('level')
             subject_name = request.args.get('subject_name')
             unit_name = request.args.get('unit_name')
+            chapter_name = request.args.get('chapter_name')
 
             lesson_names = []
             if(reviewed == '2'):
-                data = (level, subject_name, unit_name)
+                data = (level, subject_name, unit_name, chapter_name)
                 lesson_names = db.get_all_lesson_names(data)
             else:
-                data = (reviewed, level, subject_name, unit_name)
+                data = (reviewed, level, subject_name, unit_name, chapter_name)
                 lesson_names = db.get_lesson_names(data)
             
             return jsonify(lesson_names)
