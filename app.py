@@ -24,15 +24,15 @@ def add_reviewed_keywords():
     if(request.method == 'POST'):
         try:
             json = request.get_json()
-            keywords_id = json.get('keywords_id')
+            lesson_id = json.get('lesson_id')
             keywords = json.get('keywords')
             reviewer = json.get('reviewer')
             date = datetime.datetime.now()
-            data = (keywords_id, str(keywords), reviewer, date)
+            data = (lesson_id, str(keywords), reviewer, date)
             print(data)
             db.add_reviewed_keywords(data)
 
-            data = (keywords_id,)
+            data = (lesson_id,)
             db.update_lesson_reviewed_bit(data)
 
             return jsonify({'status': 'success'}), 201
@@ -193,19 +193,20 @@ def update_keyword_content():
     if(request.method == 'GET'):
         try:
             keyword = request.args.get('keyword').strip()
-            id = request.args.get('lesson_id')
-            data = (keyword, id)
-            print(data)
+            lesson_id = request.args.get('lesson_id')
+            data = (keyword, lesson_id)
             res = db.get_keyword_content(data)
 
             keyword_content = res[0]
             reviewer = ''
-            if(res[1] != 0):
+            approval = str(res[1])
+            if(approval != 0):
                 reviewer = res[2]
 
             response = {
                 'keyword_content': keyword_content,
-                'reviewer': reviewer
+                'reviewer': reviewer,
+                'approval': approval
             }
             
             return jsonify(response)
@@ -219,16 +220,11 @@ def update_keyword_content():
             json = request.get_json()
             approved = json.get('approved')
             keyword = json.get('keyword')
-            id = json.get('lesson_id')
+            lesson_id = json.get('lesson_id')
             reviewer = json.get('reviewer')
             date = datetime.datetime.now()
 
-            if(approved == '1'):
-                print('Approved')
-            elif(approved == '-1'):
-                print('Not approved')
-
-            data = (reviewer, approved, date, keyword, id)
+            data = (reviewer, approved, date, keyword, lesson_id)
             db.update_keyword_content(data)
 
             return jsonify({'status': 'success'}), 201

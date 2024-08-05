@@ -8,7 +8,7 @@ class PSQL_QUERIES:
     GET_REVIEWED_KEYWORDS = '''
         SELECT keywords, reviewer
         FROM reviewed_keywords
-        WHERE keywords_id = %s
+        WHERE lesson_id = %s
         ORDER BY timestamp DESC
         LIMIT 1;
     '''
@@ -24,7 +24,7 @@ class PSQL_QUERIES:
 
     INSERT_REVIEWED_KEYWORDS = '''
         INSERT INTO reviewed_keywords
-        (keywords_id, keywords, reviewer, timestamp)
+        (lesson_id, keywords, reviewer, timestamp)
         VALUES
         (%s, %s, %s, %s)
     '''
@@ -119,7 +119,7 @@ class PSQL_QUERIES:
         UPDATE keyword_content
         SET reviewer = %s, approved = %s, timestamp = %s
         WHERE keyword = %s
-        AND id = %s;
+        AND lesson_id = %s;
     '''
 
     GET_LEVEL_BY_LESSON_ID = '''
@@ -132,7 +132,7 @@ class PSQL_QUERIES:
         SELECT content, approved, reviewer
         from keyword_content
         WHERE keyword = %s
-        AND id = %s;
+        AND lesson_id = %s;
     '''
 
     #TEST
