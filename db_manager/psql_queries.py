@@ -135,6 +135,20 @@ class PSQL_QUERIES:
         AND lesson_id = %s;
     '''
 
+    GET_KEYWORD_CONTENT_ID = '''
+        SELECT keyword_id
+        FROM keyword_content
+        WHERE keyword = %s
+        AND lesson_id = %s
+    '''
+
+    INSERT_KEYWORD_CONTENT_DISAPPROVAL_NOTES = '''
+        INSERT INTO keyword_content_reviews
+        (keyword_id, keyword, notes, reviewer, timestamp)
+        VALUES
+        (%s, %s, %s, %s, %s)
+    '''
+
     #TEST
     GET_UNIT_NAME = '''
         SELECT unit_name 

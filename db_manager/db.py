@@ -109,6 +109,14 @@ def get_keyword_content(data):
     row = execute(psql.GET_KEYWORD_CONTENT, Fetch.ONE, data)
     return row
 
+def get_keyword_content_id(data):
+    row = execute(psql.GET_KEYWORD_CONTENT_ID, Fetch.ONE, data)
+    return row[0]
+
+def insert_keyword_content_disapproval_notes(data):
+    execute(psql.INSERT_KEYWORD_CONTENT_DISAPPROVAL_NOTES, Fetch.EXC, data)
+
+
 
 #TEST
 def get_unit_name(data):

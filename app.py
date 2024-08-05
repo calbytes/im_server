@@ -221,11 +221,19 @@ def update_keyword_content():
             approved = json.get('approved')
             keyword = json.get('keyword')
             lesson_id = json.get('lesson_id')
+            notes = json.get('notes')
             reviewer = json.get('reviewer')
             date = datetime.datetime.now()
 
             data = (reviewer, approved, date, keyword, lesson_id)
             db.update_keyword_content(data)
+
+            data = (keyword, lesson_id)
+            keyword_id = db.get_keyword_content_id(data)
+
+            if approved == -1:
+                data = (keyword_id, keyword, notes, reviewer, date)
+                db.insert_keyword_content_disapproval_notes(data)
 
             return jsonify({'status': 'success'}), 201
         except Exception as err:
