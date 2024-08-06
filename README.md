@@ -1,4 +1,4 @@
-# icon_math_db_server
+# icon_math_server
 
 # Usage
 
