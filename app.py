@@ -127,7 +127,7 @@ def get_lesson_names():
             if(reviewed == '2'):
                 data = (level, subject_name, unit_name, chapter_name)
                 lesson_names = db.get_all_lesson_names(data)
-            if(reviewed == '3'):
+            elif(reviewed == '3'):
                 data = (level, subject_name, unit_name, chapter_name)
                 lesson_names = db.get_unreviewed_keyword_content_lesson_names(data)
             else:
