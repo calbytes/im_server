@@ -47,6 +47,16 @@ class PSQL_QUERIES:
         FROM lessons
     '''
 
+    GET_UNREVIEWED_KEYWORD_CONTENT_LEVELS = '''
+        SELECT DISTINCT level
+        FROM lessons
+        WHERE lesson_id IN (
+            SELECT DISTINCT lesson_id
+            FROM keyword_content
+            WHERE approved = 0
+        )
+    '''
+
     GET_SUBJECT_NAMES = '''
         SELECT DISTINCT subject_name
         FROM lessons
@@ -57,6 +67,17 @@ class PSQL_QUERIES:
         SELECT DISTINCT subject_name
         FROM lessons
         WHERE level = %s
+    '''
+
+    GET_UNREVIEWED_KEYWORD_CONTENT_SUBJECT_NAMES = '''
+        SELECT DISTINCT subject_name
+        FROM lessons
+        WHERE level = %s
+        AND lesson_id IN (
+            SELECT DISTINCT lesson_id
+            FROM keyword_content
+            WHERE approved = 0
+        )
     '''
 
     GET_ALL_UNIT_NAMES = '''
@@ -72,6 +93,18 @@ class PSQL_QUERIES:
         WHERE reviewed::INTEGER = %s
         AND level = %s
         AND subject_name = %s
+    '''
+
+    GET_UNREVIEWED_KEYWORD_CONTENT_UNIT_NAMES = '''
+        SELECT DISTINCT unit_name
+        FROM lessons
+        WHERE level = %s
+        AND subject_name = %s
+        AND lesson_id IN (
+            SELECT DISTINCT lesson_id
+            FROM keyword_content
+            WHERE approved = 0
+        )
     '''
 
     GET_ALL_CHAPTER_NAMES = '''
@@ -91,6 +124,19 @@ class PSQL_QUERIES:
         AND unit_name = %s
     '''
 
+    GET_UNREVIEWED_KEYWORD_CONTENT_CHAPTER_NAMES = '''
+        SELECT DISTINCT chapter_name
+        FROM lessons
+        WHERE level = %s
+        AND subject_name = %s
+        AND unit_name = %s
+        AND lesson_id IN (
+            SELECT DISTINCT lesson_id
+            FROM keyword_content
+            WHERE approved = 0
+        )
+    '''
+
     GET_ALL_LESSON_NAMES = '''
         SELECT lesson_name
         from lessons
@@ -107,6 +153,19 @@ class PSQL_QUERIES:
         AND subject_name = %s
         AND unit_name = %s
         AND chapter_name = %s
+    '''
+    GET_UNREVIEWED_KEYWORD_CONTENT_LESSON_NAMES = '''
+        SELECT DISTINCT lesson_name
+        FROM lessons
+        WHERE level = %s
+        AND subject_name = %s
+        AND unit_name = %s
+        AND chapter_name = %s
+        AND lesson_id IN (
+            SELECT DISTINCT lesson_id
+            FROM keyword_content
+            WHERE approved = 0
+        )
     '''
 
     UPDATE_LESSON_REVIEWED_BIT = '''

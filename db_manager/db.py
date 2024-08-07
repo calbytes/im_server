@@ -58,6 +58,11 @@ def get_all_levels():
     levels = [row[0] for row in rows]
     return levels
 
+def get_unreviewed_keyword_content_levels():
+    rows = execute(psql.GET_UNREVIEWED_KEYWORD_CONTENT_LEVELS, Fetch.ALL)
+    levels = [row[0] for row in rows]
+    return levels
+
 def get_subject_names(data):
     rows = execute(psql.GET_SUBJECT_NAMES, Fetch.ALL, data)
     subject_names = [row[0] for row in rows]
@@ -66,7 +71,12 @@ def get_subject_names(data):
 def get_all_subject_names(data):
     rows = execute(psql.GET_ALL_SUBJECT_NAMES, Fetch.ALL, data)
     subject_names = [row[0] for row in rows]
-    return subject_names    
+    return subject_names
+
+def get_unreviewed_keyword_content_subject_names(data):
+    rows = execute(psql.GET_UNREVIEWED_KEYWORD_CONTENT_SUBJECT_NAMES, Fetch.ALL, data)
+    subject_names = [row[0] for row in rows]
+    return subject_names
 
 def get_all_unit_names(data):
     rows = execute(psql.GET_ALL_UNIT_NAMES, Fetch.ALL, data)
@@ -78,6 +88,11 @@ def get_unit_names(data):
     unit_names = [row[0] for row in rows]
     return unit_names
 
+def get_unreviewed_keyword_content_unit_names(data):
+    rows = execute(psql.GET_UNREVIEWED_KEYWORD_CONTENT_UNIT_NAMES, Fetch.ALL, data)
+    unit_names = [row[0] for row in rows]
+    return unit_names
+
 def get_all_chapter_names(data):
     rows = execute(psql.GET_ALL_CHAPTER_NAMES, Fetch.ALL, data)
     chapter_names = [row[0] for row in rows]
@@ -86,7 +101,12 @@ def get_all_chapter_names(data):
 def get_chapter_names(data):
     rows = execute(psql.GET_CHAPTER_NAMES, Fetch.ALL, data)
     chapter_names = [row[0] for row in rows]
-    return chapter_names  
+    return chapter_names
+
+def get_unreviewed_keyword_content_chapter_names(data):
+    rows = execute(psql.GET_UNREVIEWED_KEYWORD_CONTENT_CHAPTER_NAMES, Fetch.ALL, data)
+    chapter_names = [row[0] for row in rows]
+    return chapter_names
 
 def get_all_lesson_names(data):
     rows = execute(psql.GET_ALL_LESSON_NAMES, Fetch.ALL, data)
@@ -95,6 +115,11 @@ def get_all_lesson_names(data):
 
 def get_lesson_names(data):
     rows = execute(psql.GET_LESSON_NAMES, Fetch.ALL, data)
+    lesson_names = [row[0] for row in rows]
+    return lesson_names
+
+def get_unreviewed_keyword_content_lesson_names(data):
+    rows = execute(psql.GET_UNREVIEWED_KEYWORD_CONTENT_LESSON_NAMES, Fetch.ALL, data)
     lesson_names = [row[0] for row in rows]
     return lesson_names
   

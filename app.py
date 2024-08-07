@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request
 import db_manager.db as db
 import datetime
 import json
-from utils import lesson_content_handler as lch
 
 app = Flask(__name__)
 
@@ -41,6 +40,128 @@ def add_reviewed_keywords():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
+@app.route('/distinct_levels', methods = ['GET'])
+def get_distinct_levels():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            levels = []
+            if(reviewed == '2'):
+                levels = db.get_all_levels()
+            elif(reviewed == '3'):
+                levels = db.get_unreviewed_keyword_content_levels()
+            else:
+                data = (reviewed,)
+                levels = db.get_distinct_levels(data)
+
+            return jsonify(levels)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
+@app.route('/subject_names', methods = ['GET'])
+def get_subject_names():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            level = request.args.get('level')
+
+            subject_names = []
+            if(reviewed == '2'):
+                data = (level,)
+                subject_names = db.get_all_subject_names(data)
+            elif(reviewed == '3'):
+                data = (level,)
+                subject_names = db.get_unreviewed_keyword_content_subject_names(data)
+            else:
+                data = (reviewed, level)
+                subject_names = db.get_subject_names(data)
+
+            return jsonify(subject_names)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
+@app.route('/unit_names', methods = ['GET'])
+def get_unit_names():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            level = request.args.get('level')
+            subject_name = request.args.get('subject_name')
+
+            unit_names = []
+            if(reviewed == '2'):
+                data = (level, subject_name)
+                unit_names = db.get_all_unit_names(data)
+            elif(reviewed == '3'):
+                data = (level, subject_name)
+                unit_names = db.get_unreviewed_keyword_content_unit_names(data)
+            else:
+                data = (reviewed, level, subject_name)
+                unit_names = db.get_unit_names(data)
+
+            return jsonify(unit_names)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
+@app.route('/chapter_names', methods = ['GET'])
+def get_chapter_names():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            level = request.args.get('level')
+            subject_name = request.args.get('subject_name')
+            unit_name = request.args.get('unit_name')
+
+            chapter_names = []
+            if(reviewed == '2'):
+                data = (level, subject_name, unit_name)
+                chapter_names = db.get_all_chapter_names(data)
+            elif(reviewed == '3'):
+                data = (level, subject_name, unit_name)
+                chapter_names = db.get_unreviewed_keyword_content_chapter_names(data)
+            else:
+                data = (reviewed, level, subject_name, unit_name)
+                chapter_names = db.get_chapter_names(data)
+
+            return jsonify(chapter_names)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+        
+@app.route('/lesson_names', methods = ['GET'])
+def get_lesson_names():
+    if(request.method == 'GET'):
+        try:
+            reviewed = request.args.get('reviewed')
+            level = request.args.get('level')
+            subject_name = request.args.get('subject_name')
+            unit_name = request.args.get('unit_name')
+            chapter_name = request.args.get('chapter_name')
+
+            lesson_names = []
+            if(reviewed == '2'):
+                data = (level, subject_name, unit_name, chapter_name)
+                lesson_names = db.get_all_lesson_names(data)
+            if(reviewed == '3'):
+                data = (level, subject_name, unit_name, chapter_name)
+                lesson_names = db.get_unreviewed_keyword_content_lesson_names(data)
+            else:
+                data = (reviewed, level, subject_name, unit_name, chapter_name)
+                lesson_names = db.get_lesson_names(data)
+            
+            return jsonify(lesson_names)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404 
+
 @app.route('/lesson_and_keywords', methods = ['GET'])
 def get_lesson_content_and_keywords():
     if(request.method == 'GET'):
@@ -80,114 +201,7 @@ def get_lesson_content_and_keywords():
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
-        
-@app.route('/distinct_levels', methods = ['GET'])
-def get_distinct_levels():
-    if(request.method == 'GET'):
-        try:
-            reviewed = request.args.get('reviewed')
-            levels = []
-            if(reviewed == '2'):
-                levels = db.get_all_levels()
-            else:
-                data = (reviewed,)
-                levels = db.get_distinct_levels(data)
-
-            return jsonify(levels)
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
-        
-@app.route('/subject_names', methods = ['GET'])
-def get_subject_names():
-    if(request.method == 'GET'):
-        try:
-            reviewed = request.args.get('reviewed')
-            level = request.args.get('level')
-            subject_names = []
-            if(reviewed == '2'):
-                data = (level,)
-                subject_names = db.get_all_subject_names(data)
-            else:
-                data = (reviewed, level)
-                subject_names = db.get_subject_names(data)
-
-            return jsonify(subject_names)
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
-        
-@app.route('/unit_names', methods = ['GET'])
-def get_unit_names():
-    if(request.method == 'GET'):
-        try:
-            reviewed = request.args.get('reviewed')
-            level = request.args.get('level')
-            subject_name = request.args.get('subject_name')
-
-            unit_names = []
-            if(reviewed == '2'):
-                data = (level, subject_name)
-                unit_names = db.get_all_unit_names(data)
-            else:
-                data = (reviewed, level, subject_name)
-                unit_names = db.get_unit_names(data)
-
-            return jsonify(unit_names)
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
-        
-@app.route('/chapter_names', methods = ['GET'])
-def get_chapter_names():
-    if(request.method == 'GET'):
-        try:
-            reviewed = request.args.get('reviewed')
-            level = request.args.get('level')
-            subject_name = request.args.get('subject_name')
-            unit_name = request.args.get('unit_name')
-
-            chapter_names = []
-            if(reviewed == '2'):
-                data = (level, subject_name, unit_name)
-                chapter_names = db.get_all_chapter_names(data)
-            else:
-                data = (reviewed, level, subject_name, unit_name)
-                chapter_names = db.get_chapter_names(data)
-
-            return jsonify(chapter_names)
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
-        
-@app.route('/lesson_names', methods = ['GET'])
-def get_lesson_names():
-    if(request.method == 'GET'):
-        try:
-            reviewed = request.args.get('reviewed')
-            level = request.args.get('level')
-            subject_name = request.args.get('subject_name')
-            unit_name = request.args.get('unit_name')
-            chapter_name = request.args.get('chapter_name')
-
-            lesson_names = []
-            if(reviewed == '2'):
-                data = (level, subject_name, unit_name, chapter_name)
-                lesson_names = db.get_all_lesson_names(data)
-            else:
-                data = (reviewed, level, subject_name, unit_name, chapter_name)
-                lesson_names = db.get_lesson_names(data)
-            
-            return jsonify(lesson_names)
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
-        
+       
 @app.route('/keyword_content', methods = ['GET', 'POST'])
 def update_keyword_content():
     if(request.method == 'GET'):
