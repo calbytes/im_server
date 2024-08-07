@@ -18,28 +18,6 @@ def get_keywords():
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
         
-@app.route('/reviewed_keywords', methods = ['POST'])
-def add_reviewed_keywords():
-    if(request.method == 'POST'):
-        try:
-            json = request.get_json()
-            lesson_id = json.get('lesson_id')
-            keywords = json.get('keywords')
-            reviewer = json.get('reviewer')
-            date = datetime.datetime.now()
-            data = (lesson_id, str(keywords), reviewer, date)
-            print(data)
-            db.add_reviewed_keywords(data)
-
-            data = (lesson_id,)
-            db.update_lesson_reviewed_bit(data)
-
-            return jsonify({'status': 'success'}), 201
-        except Exception as err:
-            print(f"Unexpected {err=}, {type(err)=}")
-            return jsonify({'status': 'error', 
-                            'message': 'There was an error processing the request'}), 404 
-        
 @app.route('/distinct_levels', methods = ['GET'])
 def get_distinct_levels():
     if(request.method == 'GET'):
@@ -166,7 +144,6 @@ def get_lesson_names():
 def get_lesson_content_and_keywords():
     if(request.method == 'GET'):
         try:
-            reviewed = request.args.get('reviewed')
             level = request.args.get('level')
             subject_name = request.args.get('subject_name')
             unit_name = request.args.get('unit_name')
@@ -181,13 +158,12 @@ def get_lesson_content_and_keywords():
             data = (lesson_id,)
             last_reviewed_by = ''
             keywords = []
-            if reviewed == '0' or is_reviewed == '0':
+            if is_reviewed == '0':
                 keywords = db.get_ai_keywords(data)
-            elif reviewed == '1' or is_reviewed == '1':
+            elif is_reviewed == '1':
                 row = db.get_reviewed_keywords(data)
                 keywords = row[0]
                 last_reviewed_by = row[1]
-                 
 
             response = {
                 'lesson': lesson_content,
@@ -197,6 +173,28 @@ def get_lesson_content_and_keywords():
             }
 
             return jsonify(response)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404
+
+@app.route('/reviewed_keywords', methods = ['POST'])
+def add_reviewed_keywords():
+    if(request.method == 'POST'):
+        try:
+            json = request.get_json()
+            lesson_id = json.get('lesson_id')
+            keywords = json.get('keywords')
+            reviewer = json.get('reviewer')
+            date = datetime.datetime.now()
+            data = (lesson_id, str(keywords), reviewer, date)
+            print(data)
+            db.add_reviewed_keywords(data)
+
+            data = (lesson_id,)
+            db.update_lesson_reviewed_bit(data)
+
+            return jsonify({'status': 'success'}), 201
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
