@@ -210,15 +210,23 @@ def update_keyword_content():
             res = db.get_keyword_content(data)
 
             keyword_content = res[0]
+            approved = res[1]
             reviewer = ''
-            approval = str(res[1])
-            if(approval != 0):
+            disapproval_review = ''
+            
+            if approved == -1 :
+                data = (keyword, lesson_id)
+                keyword_id = db.get_keyword_content_id(data)
+                data = (keyword_id,)
+                disapproval_review = db.get_keyword_content_review_by_id(data)
+            if approved != 0 :
                 reviewer = res[2]
 
             response = {
                 'keyword_content': keyword_content,
                 'reviewer': reviewer,
-                'approval': approval
+                'disapproval_review': disapproval_review,
+                'approval': str(approved)
             }
             
             return jsonify(response)
@@ -245,7 +253,7 @@ def update_keyword_content():
 
             if approved == -1:
                 data = (keyword_id, keyword, notes, reviewer, date)
-                db.insert_keyword_content_disapproval_notes(data)
+                db.insert_keyword_content_disapproval_review(data)
 
             return jsonify({'status': 'success'}), 201
         except Exception as err:

@@ -201,11 +201,22 @@ class PSQL_QUERIES:
         AND lesson_id = %s
     '''
 
-    INSERT_KEYWORD_CONTENT_DISAPPROVAL_NOTES = '''
+    INSERT_KEYWORD_CONTENT_DISAPPROVAL_REVIEW = '''
         INSERT INTO keyword_content_reviews
-        (keyword_id, keyword, notes, reviewer, timestamp)
+        (keyword_id, keyword, review, reviewer, timestamp)
         VALUES
         (%s, %s, %s, %s, %s)
+        ON CONFLICT (keyword_id)
+        DO UPDATE SET
+            review = EXCLUDED.review,
+            reviewer = EXCLUDED.reviewer,
+            timestamp = EXCLUDED.timestamp;
+    '''
+
+    GET_KEYWORD_CONTENT_REVIEW_BY_ID = '''
+        SELECT review
+        FROM keyword_content_reviews
+        WHERE keyword_id = %s
     '''
 
     #TEST
