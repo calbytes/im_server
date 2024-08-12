@@ -83,6 +83,10 @@ def get_all_unit_names(data):
     unit_names = [row[0] for row in rows]
     return unit_names 
 
+def get_unit_name(data):
+    row = execute(psql.GET_UNIT_NAME, Fetch.ONE, data)
+    return row
+
 def get_unit_names(data):
     rows = execute(psql.GET_UNIT_NAMES, Fetch.ALL, data)
     unit_names = [row[0] for row in rows]
@@ -149,7 +153,6 @@ def get_keyword_content_set(data):
     rows = execute(psql.GET_KEYWORD_CONTENT_SET, Fetch.ALL, data)
     return rows 
 
-#TEST
-def get_unit_name(data):
-    row = execute(psql.GET_UNIT_NAME, Fetch.ONE, data)
-    return row
+def get_updated_segments():
+    rows = execute(psql.GET_UPDATED_KEYWORD_CONTENT_SEGMENTS, Fetch.ALL)
+    return rows

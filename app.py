@@ -279,3 +279,16 @@ def get_keyword_content_set():
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404
+        
+@app.route('/updated_segments', methods = ['GET'])
+def get_udpated_segments():
+    if(request.method == 'GET'):
+        try:
+            rows = db.get_updated_segments()
+            cols = ['level', 'subject']
+            segments = [dict(zip(cols, row)) for row in rows]
+            return jsonify(segments)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404

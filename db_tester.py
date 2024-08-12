@@ -85,5 +85,11 @@ def get_kwc_set():
     set = [dict(zip(cols, row)) for row in rows]
     print(set)
 
+def get_updated_segs():
+    rows = db.get_updated_segments()
+    cols = ['level', 'subject']
+    segs = [dict(zip(cols, row)) for row in rows]
+    print(segs)
+
 if __name__ == '__main__':
-    get_kwc_set()
+    get_updated_segs()

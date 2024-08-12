@@ -87,6 +87,12 @@ class PSQL_QUERIES:
         AND subject_name = %s
     '''
 
+    GET_UNIT_NAME = '''
+        SELECT unit_name 
+        FROM lessons 
+        WHERE lesson_name = %s
+    '''
+
     GET_UNIT_NAMES = '''
         SELECT DISTINCT unit_name
         FROM lessons
@@ -227,10 +233,9 @@ class PSQL_QUERIES:
         AND lessons.subject_name = %s;
     '''
 
-    #TEST
-    GET_UNIT_NAME = '''
-        SELECT unit_name 
-        FROM lessons 
-        WHERE lesson_name = %s
+    GET_UPDATED_KEYWORD_CONTENT_SEGMENTS = '''
+        SELECT DISTINCT lessons.level, lessons.subject_name
+        FROM lessons
+        INNER JOIN keyword_content ON lessons.lesson_id = keyword_content.lesson_id
+        WHERE keyword_content.timestamp >= NOW() - INTERVAL '7 days';
     '''
-
