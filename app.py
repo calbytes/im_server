@@ -260,3 +260,22 @@ def update_keyword_content():
             print(f"Unexpected {err=}, {type(err)=}")
             return jsonify({'status': 'error', 
                             'message': 'There was an error processing the request'}), 404 
+        
+@app.route('/keyword_content_set', methods = ['GET'])
+def get_keyword_content_set():
+    if(request.method == 'GET'):
+        try:
+            level = request.args.get('level')
+            subject_name = request.args.get('subject_name')
+
+            data = (level, subject_name)
+            rows = db.get_keyword_content_set(data)
+
+            cols = ['unit_name', 'chapter_name', 'lesson_name', 'keyword', 'keyword_content']
+            set = [dict(zip(cols, row)) for row in rows]
+
+            return jsonify(set)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return jsonify({'status': 'error', 
+                            'message': 'There was an error processing the request'}), 404

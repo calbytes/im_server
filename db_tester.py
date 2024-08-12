@@ -78,5 +78,12 @@ def get_keyword_content():
     elif(row[1] == 1):
         print('reviewed')
 
+def get_kwc_set():
+    data = ('Grade 6', 'Mathematics')
+    rows = db.get_keyword_content_set(data)
+    cols = ['unit_name', 'chapter_name', 'lesson_name', 'keyword', 'keyword_content']
+    set = [dict(zip(cols, row)) for row in rows]
+    print(set)
+
 if __name__ == '__main__':
-    get_keyword_content()
+    get_kwc_set()

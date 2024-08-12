@@ -145,6 +145,10 @@ def get_keyword_content_review_by_id(data):
     row = execute(psql.GET_KEYWORD_CONTENT_REVIEW_BY_ID, Fetch.ONE, data)
     return row[0]
 
+def get_keyword_content_set(data):
+    rows = execute(psql.GET_KEYWORD_CONTENT_SET, Fetch.ALL, data)
+    return rows 
+
 #TEST
 def get_unit_name(data):
     row = execute(psql.GET_UNIT_NAME, Fetch.ONE, data)

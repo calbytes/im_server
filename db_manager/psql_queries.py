@@ -219,6 +219,14 @@ class PSQL_QUERIES:
         WHERE keyword_id = %s
     '''
 
+    GET_KEYWORD_CONTENT_SET = '''
+        SELECT lessons.unit_name, lessons.chapter_name, lessons.lesson_name, keyword_content.keyword, keyword_content.content
+        FROM lessons
+        INNER JOIN keyword_content ON lessons.lesson_id = keyword_content.lesson_id
+        WHERE lessons.level = %s
+        AND lessons.subject_name = %s;
+    '''
+
     #TEST
     GET_UNIT_NAME = '''
         SELECT unit_name 
