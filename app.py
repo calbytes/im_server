@@ -188,7 +188,6 @@ def add_reviewed_keywords():
             reviewer = json.get('reviewer')
             date = datetime.datetime.now()
             data = (lesson_id, str(keywords), reviewer, date)
-            print(data)
             db.add_reviewed_keywords(data)
 
             data = (lesson_id,)
@@ -239,7 +238,7 @@ def update_keyword_content():
         try:
             json = request.get_json()
             approved = json.get('approved')
-            keyword = json.get('keyword')
+            keyword = json.get('keyword').strip()
             lesson_id = json.get('lesson_id')
             notes = json.get('notes')
             reviewer = json.get('reviewer')
